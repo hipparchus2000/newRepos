@@ -1,0 +1,106 @@
+
+#define NAMESPACE 0
+#define ELEMENTNAME 1
+#define ATTRIBUTENAME 2
+#define ATTRIBUTEVALUE 3
+#define DTDPUBLICID 4
+#define DTDPRIVATEID 5
+#define WORD 6
+#define WHITESPACE 7
+#define XMLTYPEVALUE 8
+#define PROCESSINGINSTRUCTIONAME 9
+#define PROCESSINGINSTRUCTIONVALUE 10
+#define numberOfTypes 11
+#define maxStringSize 40
+#define entriesPerList 40
+#define parentStackSize 20
+#define peerStackSize 20
+
+char stringData [numberOfTypes,entriesPerList,maxStringSize];
+int objectStackType[parentStackSize];
+int objectStackID[parentStackSize];
+int objectStackNSID[parentStackSize];
+int objectStackNew[parentStackSize];
+int objectStackPointer=0;
+/* postincrement predecrement */
+
+void pushObject(int oST, int oSID, int oSNSID, oSN) {
+  objectStackType[objectStackPointer]=oST;
+  objectStackID[objectStackPointer]=oSID;
+  objectStackNSID[objectStackPointer]=oSNSID;
+  objectStackNew[objectStackPointer]=oSN;
+  objectStackPointer++;
+};
+
+void popObject(int &oST, int &oSID, int &oSNSID, int &oSN) {
+  objectStackPointer--;
+  oST=objectStackType[objectStackPointer];
+  oSID=objectStackID[objectStackPointer];
+  oSNSID=objectStackNSID[objectStackPointer];
+  oSN=objectStackNew[objectStackPointer];
+};
+
+int NewObjectCreated;  /* global set or reset by lookupOrCreate */
+
+/* no support for entities intially */
+void cleanStringData() {
+	int i,j,k;
+	for(i=0;i<numberOfTypes;i++) 
+	  for(j=0;j<entriesPerList;j++)
+	    for(k=0;k<maxStringSize;k++) stringData='';
+};
+
+
+int lookUpOrCreate(int objectType,char *text) {
+	NewObjectCreated=0;
+	int j;
+	for(j=0;j<entriesPerList;j++) {
+	  if(strcmp(stringData[objectType,j,0],text)==0) return j;
+	};
+	NewObjectCreated=1;
+	for(j=0;j<entriesPerList;j++) {
+	  if(strlen(stringData[objectType,j,0]==0) {
+	    strcpy(stringData[objectType,j,0],text);
+	    return j;
+	  };
+	};
+	
+	printf("no space to make new object type %d\r\n",objectType);
+	printf("please increase stringEntriesSize");
+	exit (0);
+};
+
+
+int processStartElement(char *nameSpaceName, char *elementName) {
+	int numCreated=0;
+	int nsIdx;
+	int enIdx;
+	nsIdx=lookupOrCreate(NAMESPACE, nameSpaceName);
+	if (NewObjectCreated==1) numCreated++;
+	enIdx=lookupOrCreate(ELEMENTNAME, elementName);
+	if (NewObjectCreated==1) numCreated++;
+	pushObject( ELEMENTNAME, enIdx, nsIdx, ((numCreated>0)? 1,0) ); 
+};
+
+void main() {
+	cleanStringData();
+        /* loadTables();
+	processStartHTML("1.0"); */
+	/* no Processing Instruction for the moment */
+	/* processDocType("- /aliensarehere.com/public/en/1.0","aah.dtd");
+	*/
+	processStartElement("ns1","document");
+	/*  processAttribute("ns2","att1","attval1");
+	  processAttribute("ns2","att2","attval2");
+	    processWord("test");
+	    processWord("by");
+	    processStartElement("ns3","alarm");
+	      processAttribute("ns4","att4","EMERGENCY");
+	        processWord("emergency-alarm");
+	    processEndElement("ns3","alarm");
+	  processWord("jeff");
+	processEndElement("ns1","document");
+	dumpTables(); */
+};
+
+

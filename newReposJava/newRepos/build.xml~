@@ -1,0 +1,51 @@
+<project name="build nr" default="rebuild" basedir=".">
+
+  <target name="prepare">
+    <mkdir dir="./classes"/>
+  </target>
+
+  <target name="clean">
+    <deltree dir="./classes"/>
+  </target>
+
+  <target name="compile">
+    <javac srcdir="./java" destdir="./classes"
+	classpath=""
+           debug="on" optimize="off"/>
+  </target>
+
+  <target name="all" depends="clean,prepare,compile,makejar,javadoc"/>
+
+  <target name="rebuild" depends="compile,makejar,javadoc"/>
+
+  <target name="makejar" depends="compile">
+    <jar jarfile="./lib/nr.jar" basedir="./classes"/>
+  </target>
+
+  <target name="javadoc" depends="makejar">
+    <javadoc packagenames="com.chrystal.nr.*" 	classpath="./java/com/chrystal/nr"
+           sourcepath="./java/"
+           destdir="./javadoc/"
+           author="true"
+           version="true"
+           use="true"
+           bottom="Copyright &#169; 2001 Chrystal Software Ltd. All Rights Reserved."
+           Windowtitle="New Repository">
+    </javadoc>
+  </target>
+
+</project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

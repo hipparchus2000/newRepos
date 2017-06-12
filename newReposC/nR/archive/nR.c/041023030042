@@ -1,0 +1,152 @@
+#include <stdio.h>
+#include <string.h>
+
+#define NAMESPACE 0
+#define ELEMENTNAME 1
+#define ATTRIBUTENAME 2
+#define ATTRIBUTEVALUE 3
+#define DTDPUBLICID 4
+#define DTDPRIVATEID 5
+#define WORD 6
+#define WHITESPACE 7
+#define XMLTYPEVALUE 8
+#define PROCESSINGINSTRUCTIONAME 9
+#define PROCESSINGINSTRUCTIONVALUE 10
+#define numberOfTypes 11
+#define maxStringSize 40
+#define entriesPerList 40
+#define parentStackSize 20
+#define peerStackSize 20
+
+char stringData[numberOfTypes][entriesPerList][maxStringSize];
+int objectStackType[parentStackSize];
+int objectStackID[parentStackSize];
+int objectStackNSID[parentStackSize];
+int objectStackNew[parentStackSize];
+int objectStackPointer=0;
+/* postincrement predecrement */
+
+void pushObject(int oST, int oSID, int oSNSID, int oSN) {
+  objectStackType[objectStackPointer]=oST;
+  objectStackID[objectStackPointer]=oSID;
+  objectStackNSID[objectStackPointer]=oSNSID;
+  objectStackNew[objectStackPointer]=oSN;
+  objectStackPointer++;
+};
+
+void popObject(int *oST, int *oSID, int *oSNSID, int *oSN) {
+  objectStackPointer--;
+  oST=objectStackType[objectStackPointer];
+  oSID=objectStackID[objectStackPointer];
+  oSNSID=objectStackNSID[objectStackPointer];
+  oSN=objectStackNew[objectStackPointer];
+};
+
+int NewObjectCreated;  /* global set or reset by lookupOrCreate */
+
+/* no support for entities intially */
+void cleanStringData() {
+	int i,j,k;
+	for(i=0;i<numberOfTypes;i++) 
+	  for(j=0;j<entriesPerList;j++)
+	    for(k=0;k<maxStringSize;k++) stringData[i][j][k]=0;
+};
+
+void saveTables() {
+	FILE *f; int i,j;
+	f=fopen("//repos.txt","w");
+	if (f==NULL) {
+		printf("can't open //repos.txt for writing\r\n");
+		exit(0);
+	};
+	for(i=0;i<numberOfTypes;i++)
+	  for(j=0;j<entriesPerList;j++)
+	    fprintf(f,".%s\r\n",&stringData[i][j][0]);
+	fclose(f);
+};
+
+void loadTables() {
+	FILE *f; int i,j; char buf[maxStringSize];
+	f=fopen("//repos.txt","r");
+	if (f==NULL) {
+		printf("can't open //repos.txt for reading\r\n");
+		exit(0);
+	};
+	for(i=0;i<numberOfTypes;i++)
+	  for(j=0;j<entriesPerList;j++) {
+	    fscanf(f,"%s",&buf[0]);
+	    strcpy(&stringData[i][j][0],&buf[1]);
+	  };
+	fclose(f);
+};
+
+int lookupOrCreate(int objectType,char *text) {
+	int j;
+	NewObjectCreated=0;
+	for(j=0;j<entriesPerList;j++) {
+	  if(strcmp(&stringData[objectType][j][0],text)==0) {
+		printf("found object type %d id %d value %s\r\n",objectType,
+		j,text);
+		break;
+	  };
+	};
+	if (j<entriesPerList) return j;
+
+	NewObjectCreated=1;
+	for(j=0;j<entriesPerList;j++) {
+	  if(stringData[objectType][j][0]==0) {
+	      printf("creating object type %d id %d value %s\r\n",objectType,
+	      j,text);
+	    strcpy(&stringData[objectType][j][0],text);
+	    break;
+	  };
+	};
+	
+	if(j==entriesPerList) {
+		printf("no space to make new object type %d\r\n",objectType);
+		printf("please increase string Entries Size\r\n");
+		exit (0);
+	} else {
+		return j;
+	};
+};
+
+
+int processStartElement(char *nameSpaceName, char *elementName) {
+	int numCreated=0;
+	int nsIdx;
+	int enIdx;
+	nsIdx=lookupOrCreate(NAMESPACE, nameSpaceName);
+	if (NewObjectCreated==1) numCreated++;
+	enIdx=lookupOrCreate(ELEMENTNAME, elementName);
+	if (NewObjectCreated==1) numCreated++;
+	pushObject( ELEMENTNAME, enIdx, nsIdx, ((numCreated>0)?1:0)); 
+};
+
+void main(int argc, char *argv[]) {
+	if (argc>1) {
+		if (strcmp(argv[1],"clean")==0) {
+			cleanStringData();
+			saveTables();
+		};
+	};
+        loadTables();
+	/* processStartHTML("1.0"); */
+	/* no Processing Instruction for the moment */
+	/* processDocType("- /aliensarehere.com/public/en/1.0","aah.dtd");
+	*/
+	processStartElement("ns1a","doc1");
+	/*  processAttribute("ns2","att1","attval1");
+	  processAttribute("ns2","att2","attval2");
+	    processWord("test");
+	    processWord("by");
+	    processStartElement("ns3","alarm");
+	      processAttribute("ns4","att4","EMERGENCY");
+	        processWord("emergency-alarm");
+	    processEndElement("ns3","alarm");
+	  processWord("jeff");
+	processEndElement("ns1","document"); */
+	saveTables(); 
+};
+
+

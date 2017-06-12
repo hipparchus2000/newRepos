@@ -1,0 +1,138 @@
+Relationship Entered is 
+fork
+Checkin starting..
+starting checkin parser
+setting content handler
+setting error handler
+setting Features of parser
+creating org.xml.sax.InputSource
+about to parse the inputsource
+checkinSAXParser:startDocument setting rootNode to true
+checkinSAXParser:startElement  blue
+SELECT id FROM NameSpace WHERE (data LIKE '');
+Exception when selecting records from database (looking up)
+java.sql.SQLException: Before start of result set
+java.sql.SQLException: Before start of result set
+	at org.gjt.mm.mysql.ResultSet.checkRowPos(ResultSet.java:1336)
+	at org.gjt.mm.mysql.ResultSet.getLong(ResultSet.java:379)
+	at org.gjt.mm.mysql.ResultSet.getInt(ResultSet.java:366)
+	at com.chrystal.nr.DataStore.lookup(DataStore.java:170)
+	at com.chrystal.nr.StandardLookupType.lookup(StandardLookupType.java:34)
+	at com.chrystal.nr.StandardLookupType.findOrStore(StandardLookupType.java:39)
+	at com.chrystal.nr.checkinSAXParser.startElement(checkinSAXParser.java:50)
+	at org.apache.xerces.parsers.SAXParser.startElement(SAXParser.java:1371)
+	at org.apache.xerces.validators.common.XMLValidator.callStartElement(XMLValidator.java:828)
+	at org.apache.xerces.framework.XMLDocumentScanner$ContentDispatcher.dispatch(XMLDocumentScanner.java:989)
+	at org.apache.xerces.framework.XMLDocumentScanner.parseSome(XMLDocumentScanner.java:380)
+	at org.apache.xerces.framework.XMLParser.parse(XMLParser.java:908)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:116)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:33)
+	at com.chrystal.nr.nrRepository.main(nrRepository.java:291)
+SELECT id FROM NameSpace ORDER BY (id * -1);
+ignore this Exception it means no records??
+java.sql.SQLException: Before start of result set
+java.sql.SQLException: Before start of result set
+	at org.gjt.mm.mysql.ResultSet.checkRowPos(ResultSet.java:1336)
+	at org.gjt.mm.mysql.ResultSet.getLong(ResultSet.java:379)
+	at org.gjt.mm.mysql.ResultSet.getInt(ResultSet.java:366)
+	at com.chrystal.nr.DataStore.store(DataStore.java:63)
+	at com.chrystal.nr.StandardLookupType.store(StandardLookupType.java:26)
+	at com.chrystal.nr.StandardLookupType.findOrStore(StandardLookupType.java:40)
+	at com.chrystal.nr.checkinSAXParser.startElement(checkinSAXParser.java:50)
+	at org.apache.xerces.parsers.SAXParser.startElement(SAXParser.java:1371)
+	at org.apache.xerces.validators.common.XMLValidator.callStartElement(XMLValidator.java:828)
+	at org.apache.xerces.framework.XMLDocumentScanner$ContentDispatcher.dispatch(XMLDocumentScanner.java:989)
+	at org.apache.xerces.framework.XMLDocumentScanner.parseSome(XMLDocumentScanner.java:380)
+	at org.apache.xerces.framework.XMLParser.parse(XMLParser.java:908)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:116)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:33)
+	at com.chrystal.nr.nrRepository.main(nrRepository.java:291)
+SQLException on Inserting row into table
+java.sql.SQLException: Invalid authorization specification: Access denied for user: 'x@localhost.localdomain' (Using password: YES)
+java.sql.SQLException: Invalid authorization specification: Access denied for user: 'x@localhost.localdomain' (Using password: YES)
+	at org.gjt.mm.mysql.MysqlIO.init(MysqlIO.java:330)
+	at org.gjt.mm.mysql.Connection.connectionInit(Connection.java:261)
+	at org.gjt.mm.mysql.jdbc2.Connection.connectionInit(Connection.java:89)
+	at org.gjt.mm.mysql.Driver.connect(Driver.java:167)
+	at java.sql.DriverManager.getConnection(DriverManager.java:517)
+	at java.sql.DriverManager.getConnection(DriverManager.java:177)
+	at com.chrystal.nr.DataStore.store(DataStore.java:88)
+	at com.chrystal.nr.StandardLookupType.store(StandardLookupType.java:26)
+	at com.chrystal.nr.StandardLookupType.findOrStore(StandardLookupType.java:40)
+	at com.chrystal.nr.checkinSAXParser.startElement(checkinSAXParser.java:50)
+	at org.apache.xerces.parsers.SAXParser.startElement(SAXParser.java:1371)
+	at org.apache.xerces.validators.common.XMLValidator.callStartElement(XMLValidator.java:828)
+	at org.apache.xerces.framework.XMLDocumentScanner$ContentDispatcher.dispatch(XMLDocumentScanner.java:989)
+	at org.apache.xerces.framework.XMLDocumentScanner.parseSome(XMLDocumentScanner.java:380)
+	at org.apache.xerces.framework.XMLParser.parse(XMLParser.java:908)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:116)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:33)
+	at com.chrystal.nr.nrRepository.main(nrRepository.java:291)
+SELECT id FROM ElementName WHERE (name LIKE 'blue');
+Exception when selecting records from database (looking up)
+java.sql.SQLException: Before start of result set
+java.sql.SQLException: Before start of result set
+	at org.gjt.mm.mysql.ResultSet.checkRowPos(ResultSet.java:1336)
+	at org.gjt.mm.mysql.ResultSet.getLong(ResultSet.java:379)
+	at org.gjt.mm.mysql.ResultSet.getInt(ResultSet.java:366)
+	at com.chrystal.nr.DataStore.lookup(DataStore.java:170)
+	at com.chrystal.nr.StandardLookupType.lookup(StandardLookupType.java:34)
+	at com.chrystal.nr.StandardLookupType.findOrStore(StandardLookupType.java:39)
+	at com.chrystal.nr.checkinSAXParser.startElement(checkinSAXParser.java:55)
+	at org.apache.xerces.parsers.SAXParser.startElement(SAXParser.java:1371)
+	at org.apache.xerces.validators.common.XMLValidator.callStartElement(XMLValidator.java:828)
+	at org.apache.xerces.framework.XMLDocumentScanner$ContentDispatcher.dispatch(XMLDocumentScanner.java:989)
+	at org.apache.xerces.framework.XMLDocumentScanner.parseSome(XMLDocumentScanner.java:380)
+	at org.apache.xerces.framework.XMLParser.parse(XMLParser.java:908)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:116)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:33)
+	at com.chrystal.nr.nrRepository.main(nrRepository.java:291)
+SELECT id FROM ElementName ORDER BY (id * -1);
+ignore this Exception it means no records??
+java.sql.SQLException: Before start of result set
+java.sql.SQLException: Before start of result set
+	at org.gjt.mm.mysql.ResultSet.checkRowPos(ResultSet.java:1336)
+	at org.gjt.mm.mysql.ResultSet.getLong(ResultSet.java:379)
+	at org.gjt.mm.mysql.ResultSet.getInt(ResultSet.java:366)
+	at com.chrystal.nr.DataStore.store(DataStore.java:63)
+	at com.chrystal.nr.StandardLookupType.store(StandardLookupType.java:26)
+	at com.chrystal.nr.StandardLookupType.findOrStore(StandardLookupType.java:40)
+	at com.chrystal.nr.checkinSAXParser.startElement(checkinSAXParser.java:55)
+	at org.apache.xerces.parsers.SAXParser.startElement(SAXParser.java:1371)
+	at org.apache.xerces.validators.common.XMLValidator.callStartElement(XMLValidator.java:828)
+	at org.apache.xerces.framework.XMLDocumentScanner$ContentDispatcher.dispatch(XMLDocumentScanner.java:989)
+	at org.apache.xerces.framework.XMLDocumentScanner.parseSome(XMLDocumentScanner.java:380)
+	at org.apache.xerces.framework.XMLParser.parse(XMLParser.java:908)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:116)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:33)
+	at com.chrystal.nr.nrRepository.main(nrRepository.java:291)
+SQLException on Inserting row into table
+java.sql.SQLException: Invalid authorization specification: Access denied for user: 'x@localhost.localdomain' (Using password: YES)
+java.sql.SQLException: Invalid authorization specification: Access denied for user: 'x@localhost.localdomain' (Using password: YES)
+	at org.gjt.mm.mysql.MysqlIO.init(MysqlIO.java:330)
+	at org.gjt.mm.mysql.Connection.connectionInit(Connection.java:261)
+	at org.gjt.mm.mysql.jdbc2.Connection.connectionInit(Connection.java:89)
+	at org.gjt.mm.mysql.Driver.connect(Driver.java:167)
+	at java.sql.DriverManager.getConnection(DriverManager.java:517)
+	at java.sql.DriverManager.getConnection(DriverManager.java:177)
+	at com.chrystal.nr.DataStore.store(DataStore.java:88)
+	at com.chrystal.nr.StandardLookupType.store(StandardLookupType.java:26)
+	at com.chrystal.nr.StandardLookupType.findOrStore(StandardLookupType.java:40)
+	at com.chrystal.nr.checkinSAXParser.startElement(checkinSAXParser.java:55)
+	at org.apache.xerces.parsers.SAXParser.startElement(SAXParser.java:1371)
+	at org.apache.xerces.validators.common.XMLValidator.callStartElement(XMLValidator.java:828)
+	at org.apache.xerces.framework.XMLDocumentScanner$ContentDispatcher.dispatch(XMLDocumentScanner.java:989)
+	at org.apache.xerces.framework.XMLDocumentScanner.parseSome(XMLDocumentScanner.java:380)
+	at org.apache.xerces.framework.XMLParser.parse(XMLParser.java:908)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:116)
+	at com.chrystal.nr.nrRepository.checkin(nrRepository.java:33)
+	at com.chrystal.nr.nrRepository.main(nrRepository.java:291)
+Processing 0 attributes on this element
+9 characters in the current element
+
+	asdasd
+
+checkinSAXParser:endElement  blue   is ending
+About to retrieve node tree
+Checkin was unsuccessful
+Done

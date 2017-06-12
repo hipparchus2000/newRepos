@@ -1,0 +1,57 @@
+create table DocumentInstance(
+id int,
+rootElementID int,
+ancestorDocID int,
+ancestorRelationshipID
+);
+
+create table PropertyInstance(
+id int,
+DocumentInstanceID,
+propertyNameID,
+propertyValueID
+);
+
+create table PropertyName(
+id int,
+name varchar(255));
+
+create table Propertyvalue(
+id int,
+data varchar(255));
+
+create table ElementInstance(
+id int,
+elementNameID int,
+namespaceID int,
+childrenIDsChecksum int);
+
+create table ElementName(
+id int,
+name varchar(255));
+
+create table NameSpace(
+id int,
+uri varchar(255));
+
+create table ElementChildInstance(
+elementInstanceID int,
+childSequenceNum int,
+childType int,
+childID int);
+
+create table Word(
+id int,
+data varchar(255));
+
+create table Whitespace(
+id int,
+data varchar(255));
+
+create table Attribute(
+id int,
+data varchar(255),
+value varchar(255));
+
+
+

@@ -1,0 +1,217 @@
+#include <stdio.h>
+#include <string.h>
+
+#define XMLTYPE 0
+#define PUBLICDTD 1
+#define SYSTEMDTD 2
+#define DTD 3	
+
+#define NAMESPACE 4
+#define ELEMENTNAME 5
+#define ATTRIBUTENAME 6
+#define ATTRIBUTEVALUE 7
+
+#define WORD 8
+#define WHITESPACE 9
+
+#define PROCESSINGINSTRUCTIONAME 10
+#define PROCESSINGINSTRUCTIONVALUE 11
+
+#define numberOfTypes 12
+#define maxStringSize 40
+#define entriesPerList 40
+#define parentStackSize 20
+#define peerStackSize 20
+
+char stringData[numberOfTypes][entriesPerList][maxStringSize];
+int objectStackType[parentStackSize];
+int objectStackID[parentStackSize];
+int objectStackNSID[parentStackSize];
+int objectStackNew[parentStackSize];
+int objectStackPointer=0;
+/* postincrement predecrement */
+
+void pushObject(int oST, int oSID, int oSNSID, int oSN) {
+  objectStackType[objectStackPointer]=oST;
+  objectStackID[objectStackPointer]=oSID;
+  objectStackNSID[objectStackPointer]=oSNSID;
+  objectStackNew[objectStackPointer]=oSN;
+  objectStackPointer++;
+};
+
+void popObject(int *oST, int *oSID, int *oSNSID, int *oSN) {
+  objectStackPointer--;
+  oST=objectStackType[objectStackPointer];
+  oSID=objectStackID[objectStackPointer];
+  oSNSID=objectStackNSID[objectStackPointer];
+  oSN=objectStackNew[objectStackPointer];
+};
+
+int NewObjectCreated;  /* global set or reset by lookupOrCreate */
+
+/* no support for entities intially */
+void cleanStringData() {
+	int i,j,k;
+	for(i=0;i<numberOfTypes;i++) 
+	  for(j=0;j<entriesPerList;j++)
+	    for(k=0;k<maxStringSize;k++) stringData[i][j][k]=0;
+};
+
+void saveTables() {
+	FILE *f; int i,j;
+	f=fopen("//repos.txt","w");
+	if (f==NULL) {
+		printf("can't open //repos.txt for writing\r\n");
+		exit(0);
+	};
+	for(i=0;i<numberOfTypes;i++)
+	  for(j=0;j<entriesPerList;j++)
+	    fprintf(f,".%s\r\n",&stringData[i][j][0]);
+	fclose(f);
+};
+
+void loadTables() {
+	FILE *f; int i,j; char buf[maxStringSize];
+	f=fopen("//repos.txt","r");
+	if (f==NULL) {
+		printf("can't open //repos.txt for reading\r\n");
+		exit(0);
+	};
+	for(i=0;i<numberOfTypes;i++)
+	  for(j=0;j<entriesPerList;j++) {
+	    fscanf(f,"%s",&buf[0]);
+	    strcpy(&stringData[i][j][0],&buf[1]);
+	  };
+	fclose(f);
+};
+
+int lookupOrCreate(int objectType,char *text) {
+	int j;
+	NewObjectCreated=0;
+	for(j=0;j<entriesPerList;j++) {
+	  if(strcmp(&stringData[objectType][j][0],text)==0) {
+		printf("found object type %d id %d value %s\r\n",objectType,
+		j,text);
+		break;
+	  };
+	};
+	if (j<entriesPerList) return j;
+
+	NewObjectCreated=1;
+	for(j=0;j<entriesPerList;j++) {
+	  if(stringData[objectType][j][0]==0) {
+	      printf("creating object type %d id %d value %s\r\n",objectType,
+	      j,text);
+	    strcpy(&stringData[objectType][j][0],text);
+	    break;
+	  };
+	};
+	
+	if(j==entriesPerList) {
+		printf("no space to make new object type %d\r\n",objectType);
+		printf("please increase string Entries Size\r\n");
+		exit (0);
+	} else {
+		return j;
+	};
+};
+
+
+int processStartElement(char *nameSpaceName, char *elementName) {
+	int numCreated=0;
+	int nsIdx;
+	int enIdx;
+	nsIdx=lookupOrCreate(NAMESPACE, nameSpaceName);
+	if (NewObjectCreated==1) numCreated++;
+	enIdx=lookupOrCreate(ELEMENTNAME, elementName);
+	if (NewObjectCreated==1) numCreated++;
+	pushObject( ELEMENTNAME, enIdx, nsIdx, ((numCreated>0)?1:0)); 
+};
+
+int processEndElement(char *nameSpaceName, char *elementName) {
+	int numCreated=0;
+	int nsIdx;
+	int enIdx;
+	nsIdx=lookupOrCreate(NAMESPACE, nameSpaceName);
+	if (NewObjectCreated==1) numCreated++;
+	enIdx=lookupOrCreate(ELEMENTNAME, elementName);
+	if (NewObjectCreated==1) numCreated++;
+	if (numCreated>0) {
+		printf("EndElement created object(s), must be XML error\r\n");
+		exit(0);
+	};
+	
+	/* look on stack for start Element */ 
+	/* add all children to the ElementChildChainList */
+	/* stack an element instance pointing to elementChildChainList*/
+};
+
+#define numDocInstances 20
+int documentInstanceXMLType[numDocInstances];
+int documentInstancePublicDTD[numDocInstances];
+int documentInstanceSystemDTD[numDocInstances];
+int documentInstanceFirstChild[numDocInstances];
+int documentInstanceNumberOfChildren[numDocInstances];
+
+#define numberOfChildObjects 20
+int childrenListObjectType[numberOfChildObjects];
+int childrenListObjectID[numberOfChildObjects];
+
+#define numElementInstances 20
+int ElementInstanceNSID[numElementInstances];
+int ElementInstanceENID[numElementInstances];
+int ElementInstanceFirstChild[numElementInstances];
+int ElementInstanceNumberOfChildren[numElementInstances];
+
+int processStartDocument(char *xmltype, char *publicDtd, char *systemDtd) {
+	/* convert to Idx */
+	/*push Object */
+	int numCreated=0;
+	int xmlIdx;
+	int pubIdx;
+	int sysIdx;
+	xmlIdx=lookupOrCreate(XMLTYPE, xmltype);
+	if (NewObjectCreated==1) numCreated++;
+	pushObject( XMLTYPE, xmlIdx, 0, ((numCreated>0)?1:0)); 
+
+	pubIdx=lookupOrCreate(PUBLICDTD, publicDtd);
+	if (NewObjectCreated==1) numCreated++;
+	sysIdx=lookupOrCreate(SYSTEMDTD,systemDtd);
+	if (NewObjectCreated==1) numCreated++;
+	pushObject( DTD, pubIdx, sysIdx, ((numCreated>0)?1:0)); 
+
+};
+
+int processEndDocument() {
+	/* look on stack for start Document */
+	/* add all children to the ElementChildChainList */
+	/* write a document Instance */
+};
+
+void main(int argc, char *argv[]) {
+	if (argc>1) {
+		if (strcmp(argv[1],"clean")==0) {
+			cleanStringData();
+			saveTables();
+		};
+	};
+        loadTables();
+	processStartDocument("1.0","-//aliensarehere.com//public//en//1.0",
+	  "aah.dtd");
+	
+	processStartElement("ns1a","doc1");
+	/*  processAttribute("ns2","att1","attval1");
+	  processAttribute("ns2","att2","attval2");
+	    processWord("test");
+	    processWord("by"); */
+	    processStartElement("ns3","alarm"); /*
+	      processAttribute("ns4","att4","EMERGENCY");
+	        processWord("emergency-alarm");
+	    processEndElement("ns3","alarm");
+	  processWord("jeff");
+	processEndElement("ns1a","doc1");
+	processEndDocument(); */
+	saveTables(); 
+};
+
+

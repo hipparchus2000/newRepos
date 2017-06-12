@@ -1,0 +1,1 @@
+jdb -classpath %CLASSPATH%;.\lib\nr.jar com.chrystal.nr.nrRepository checkin export.xml 0 original

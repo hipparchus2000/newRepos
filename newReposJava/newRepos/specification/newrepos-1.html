@@ -1,0 +1,657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+    	         
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+  <title></title>
+             	 	         
+  <meta name="GENERATOR" content="OpenOffice.org 633  (Win32)">
+    	         
+  <meta name="AUTHOR" content="Jeff Davies">
+    	         
+  <meta name="CREATED" content="20010928;11291740">
+    	         
+  <meta name="CHANGEDBY" content="Jeff Davies">
+    	         
+  <meta name="CHANGED" content="20010928;12325627">
+</head>
+ <body>
+       
+<h1 align="Center">New Repository Specification (Draft)</h1>
+       
+<p><br>
+   <br>
+    </p>
+       
+<h2 align="Center">by Jeff Davies 28/9/2001</h2>
+       
+<p align="Center"><br>
+   <br>
+    </p>
+       
+<ol>
+    	         
+  <li>               
+    <h3>Check In Procedure:</h3>
+** perhaps instead of this, directly create a node tree using SAX. <br>
+    	               
+    <p>1. Make a DOM tree.</p>
+    	               
+    <p>2. set boolean newchild=false.</p>
+    </li>
+     
+</ol>
+       
+<ul>
+    	         
+  <p>3. Convert Simple Node Types to Numerical Equivalents:</p>
+    	         
+  <p>Enumerate DOM tree, building a nodeTree (a node is a class with 	member 
+ variables of nodeType (enum 1-4 representing Attribute, 	Whitespace, Word, 
+ ElementInstance) and id (integer). <b>Note</b> for 	well formed XML, whitespace 
+ is returned by Xerces as character data. 	The character data is split into 
+ word and whitespace blocks. The 	table holding words (and the same goes for
+ whitespace) has maximal 	hashtable acceleration so that the word being converted
+ to it's ID 	happens as quickly as possible in it's SQL database host. (ditto
+ 	element names, attribute names and values). If a new word is found 	in
+the parsed data, this is added to the end of the word table. The 	same goes
+for the other types: Attribute, Whitespace and Element 	Name. Newchild is
+set to true if one or more new items are created.  	</p>
+    	         
+  <p>4. Calculate Checksums:</p>
+    	         
+  <p>Walk the nodeTree starting at root node. If the node type is 	element 
+ and has children of type element that have no checksum set, 	then evaluate 
+ the checksum for the child element node.  	</p>
+    	         
+  <p>Checksum = sum(ids for all child whitespace nodes) + sum (ids for 	all 
+ child word nodes) + sum (ids for all child attribute nodes) + 	sum (checksums 
+ for all child element nodes).  	</p>
+    	         
+  <p>Note the above checksum can't be evaluated until all child 	element nodes
+have checksums assigned.</p>
+    	         
+  <p>5. Look for new Subtree instances:</p>
+    	         
+  <p>Walk the nodeTree (starting at root). For all nodes of type 	element, 
+ look in elementInstance table for corresponding checksum. 	If checksum found, 
+ verify the structures to make sure they are same 	(the depth of this verification 
+ should only be immediate children of 	this node, and if calculations show 
+ conflict probability to be low 	enough, this could be dispensed with altogether).</p>
+    	         
+  <p>If the subtree already exists in the database, then mark this 	element 
+ node as preexistingElementInstance=true, set the 	preexistingElementID, and
+ delete all child nodes from below it in 	the nodeTree.</p>
+    	         
+  <p>(note if the whole document is a duplicate of one already 	submitted, 
+ then as this process starts from the root of the tree, 	nothing is added 
+to the database but the document record).</p>
+    	         
+  <p>6. Store new Subtree instances:</p>
+    	         
+  <p>Process the nodeTree starting with rootnode.  	</p>
+    	         
+  <p>If any child element nodes of this node have 	preexistingElementInstance==false, 
+ then process the childElement.</p>
+    	         
+  <p>Process: Write element instance record, and element instance 	children 
+ record for all children of this node.</p>
+    	         
+  <p>7. Write a document record for this document, (including country, 	author, 
+ language dereferencing) set root element instance id to the 	root node's 
+element instance id.</p>
+   
+</ul>
+   
+<h3>2. Check Out Algorithm</h3>
+   
+<div align="Left">  
+<blockquote>1.&nbsp; Open file for writing<br>
+  2. Get document record.<br>
+  3. Node currentnode=doc.rootelement<br>
+  4. generateHeader(doc,outfile)<br>
+  5. unmarshallNode(currentnode,outfile)<br>
+    <br>
+  unmarshallNode {<br>
+       
+  <blockquote>this.unmarshallHeader(outfile);<br>
+  if&nbsp; (this.nodeType==elementType) {<br>
+   &nbsp; unmarshallChildren(outfile);<br>
+  break;<br>
+   }<br>
+  this.unmarshallFooter(outfile);<br>
+      </blockquote>
+  }<br>
+      <br>
+      </blockquote>
+      </div>
+           
+    <div align="Left"> &nbsp; &nbsp;      
+    <h3>3. Where used</h3>
+  From tree dialog(?) or somewhere, get id of element. Look in element instance
+ children table to find first level use.<br>
+  Trace each tree back to it's source, adding all elements to a list. Eliminate
+ duplicates on ever iteration of the search.<br>
+  Finally, document records can be looked up from the element ids. If the 
+id has no corresponding document, delete it.<br>
+  Note: an element might be a leaf node of another document and also a document
+ root element. Therefore this is the<br>
+  only way to do this. If you follow all chains to the end, and only use
+the  end points, this will ignore valid documents<br>
+  where the root element is reused in another document.<br>
+  &nbsp; &nbsp; <br>
+     
+    <div align="Left">     
+    <h3>4. XML Diff</h3>
+     </div>
+ If you wanted to compare two documents this is very easy to implement (node 
+checksums instantly show that 2 nodes are dissimilar although<br>
+ one might need to check the immediate children to be sure).<br>
+  Otherwise, one could checkout both to the filesystem, and use IBM XMLdiff<br>
+ or Jez Higgins' XML diff function. <br>
+  &nbsp;      
+    <h3></h3>
+     
+    <div align="Left">      
+    <h3>5. Features</h3>
+     </div>
+     </div>
+     
+    <ul>
+       
+    </ul>
+               
+    <ol>
+    	                 
+      <li>                       
+        <p>Very fast searching (including full text). Very simple search
+	code.</p>
+    	</li>
+                   
+      <li>                       
+        <p>Minimal use of space, and corresponding increase in 	performance
+ as a result (less disk seek time, more can be cached in 	RAM etc).</p>
+    	</li>
+                   
+      <li>                       
+        <p>Relationships between all cut and paste structure data is 	established, 
+ and can be examined. (note if DIA is used for vector 	drawings, or any other 
+ tool using XML for storage including SVG 	graphics, then cut and paste data 
+ is evident,can be searched for 	etc).</p>
+    	</li>
+                   
+      <li>                       
+        <p>Ideal for translation memory.<br>
+         <br>
+         </p>
+    </li>
+             
+    </ol>
+               
+    <h3>5. To Do List</h3>
+ 1. Make a script to create these mysql tables.<br>
+ 2. Convert UML tables into SQL and also into Java classes.<br>
+ 3. Write the basic functions into a class in a jar. (checkin, checkout<br>
+ 4. Write a commandline utility to checkin, checkout.<br>
+ 5. Later write a simple gui to checkin, checkout.<br>
+ 6. Write a tag library to checkin, checkout via servlet.<br>
+ 7. *Note* Listing documents etc can be performed via ordinary SQL tag library 
+already!<br>
+ //or MS Access/OpenOffice report<br>
+ 8. Look at functions of astoria to compare, and potentially add more to
+this specification.<br>
+     <br>
+     
+    <h3>Appendix I &nbsp; previously released notes</h3>
+               
+    <h4>1. Conversation between hipparchus2000 (jeff davies) and jez_higgins 
+ which ends up being a bit of a FAQ.</h4>
+               
+    <p>jez_higgins: Anyway, your xml repository dodah. I stick a document
+ in, then I stick a very similar doucment in.</p>
+               
+    <p>jez_higgins: The repository leaps in action and eliminates duplication.</p>
+               
+    <p>jez_higgins: Yes?</p>
+               
+    <p>hipparchus2000: yes</p>
+               
+    <p>jez_higgins: So what happens when I edit one of the documents?</p>
+               
+    <p>hipparchus2000: all parent instances above a changed subtree become
+ new instances</p>
+               
+    <p>hipparchus2000: (because the data they contain has changed)</p>
+               
+    <p>jez_higgins: a copy-on-write?</p>
+               
+    <p>hipparchus2000: ?</p>
+               
+    <p>hipparchus2000: There are the following tables in my model:</p>
+               
+    <p>jez_higgins: when I edit on of the documents, the other document is
+ left as is</p>
+               
+    <p>hipparchus2000: Yes. fragments and inclusion should be handled by
+a higher layer (in fact why not just when you do XSLT?).</p>
+               
+    <p>jez_higgins: ok. what are the tables in the model?</p>
+               
+    <p>hipparchus2000: The system will recognise an included fragment as
+an instance of a fragment just because they are the same, the admin-type-person
+ might be able to tell through a GUI that this has happened and change it
+so that link managment works in future.</p>
+               
+    <p>hipparchus2000: I will put tables in spec document and email it to
+ you</p>
+               
+    <p>jez_higgins: Where are you aiming with this? Big compression?</p>
+               
+    <p>hipparchus2000: basically element names and attribute names are stored 
+ in tables with id numbers assigned. Then there is a attribute instance table 
+ which stored value. Then there is element instance table: many rows for each
+ element, each one pointing to a child node (content is split into words for
+ better searching)</p>
+               
+    <p>jez_higgins: Huffman encoding as applied to structure documents?</p>
+               
+    <p>hipparchus2000: aim is very small db (although this is side effect).
+ Very very fast very very good searching. Check in time is not as much as
+I thought it might be due to subtree identification through checksums!</p>
+               
+    <p>hipparchus2000: ANother table is document name, document id, root
+element instance id, DTD (DTDs are not stored in the system, since this is
+pointless).</p>
+               
+    <p>jez_higgins: It's a crazy plan, but it might just work.  </p>
+               
+    <p>hipparchus2000: Even if every word and variation in english is stored 
+ in the word table, in common use you might have 50,000 rows (about 400k).</p>
+               
+    <p>hipparchus2000: Also the system lends itself to translation memory</p>
+               
+    <p>hipparchus2000: No seperate full text indexing system necessary.</p>
+               
+    <h4>2. Preliminary email I sent around dev team about this. Note: also
+ includes the DTD (aka Data Structure Rules) optimising tool, which might
+be built very easily onto the new Repository.</h4>
+               
+    <p>IDEAS:</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>This time I had this idea whilst sat in the pub with frazer..</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>1. Reuse in astoria as-is is practically useless in the XML world
+since</p>
+               
+    <p>everyone uses fragments with defined DTDs</p>
+               
+    <p>and more importantly, XSLs so that people can use WYSIWYG editing
+of the</p>
+               
+    <p>fragments (rather difficult with</p>
+               
+    <p>astoria's anyplace-inthetree checkout). Also DTDs are getting passe
+ and</p>
+               
+    <p>adding Schema support to the anyplace-inthetree</p>
+               
+    <p>checkout would be a stupid waste of resource without knowing that
+a</p>
+               
+    <p>single customer wanted this.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>2. A good way to use re-use (and a good reason to use Object DB) is
+ as</p>
+               
+    <p>follows:</p>
+               
+    <p>every part of every document that comes into the database is compared</p>
+               
+    <p>and ANY repeated subtree, and</p>
+               
+    <p>reuse of the subtree automatically performed.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>&lt;rhetorical question&gt;</p>
+               
+    <p>Why do this, won't this make the check-in expensive in processing
+terms?</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>&lt;/rhetorical question&gt;</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>1. Yes, this might make the check-in expensive (perhaps some kind
+of</p>
+               
+    <p>hash table arrangement could make this</p>
+               
+    <p>faster). But by using message passing architecture, (wayfarer JMS),</p>
+               
+    <p>latency is removed so the user experience</p>
+               
+    <p>of check in is lightning fast, even if full integration of a document</p>
+               
+    <p>into the database is slower.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>2. BENEFIT: database size is minimal. Even CVS doesn't save space
+over</p>
+               
+    <p>multiple instances of a document in</p>
+               
+    <p>a tree. Imagine selling the ability to take 30 gig of documents and</p>
+               
+    <p>store them on a 32k Smartcard (could happen).</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>3. BENEFIT: tells you more about your data. Difficult for me to explain</p>
+               
+    <p>this, but it does. (bit like the Enterprise</p>
+               
+    <p>structured document analysis tool that I mentioned before).</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>4. BENEFIT: Tree Search can be blindingly fast. Since the structure
+ has</p>
+               
+    <p>been empiricised (to coin a term), for a given</p>
+               
+    <p>xpath, you simply find it in the hash table, and examine the node's</p>
+               
+    <p>reuse list to find all parents.</p>
+               
+    <p>&lt;extraordinarily fast&gt;.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>Jeff Davies</p>
+               
+    <p>25/9/01</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>And another part of the idea about the maximal reuse technology, is
+ to apply it to computer code.</p>
+               
+    <p>(say you xml-ised your C++ and Java). You could then eg: strip comments, 
+ and maybe variable names</p>
+               
+    <p>and you might find that massive reuse was possible in which case,
+you might get the 100 million</p>
+               
+    <p>lines of Win2k code into another 32k Smartcard.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>Jeff Davies</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>IDEA 2. Tool to analyse all of a company's documents, and build a
+tree for a given DTD</p>
+               
+    <p>giving usage (filenames) of nodes in certain locations. TO allow simplification 
+ of DTDs.</p>
+               
+    <p>Simplification of DTDs is useful for making Transformations easier,
+ and other tools</p>
+               
+    <p>and testing easier.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>Nokia and many other companies have large unwieldy DTDs. I had an
+idea</p>
+               
+    <p>some time ago about a tool to</p>
+               
+    <p>reduce the complexity of DTDs, and in a conversation with Kal, realised</p>
+               
+    <p>it isn't actually too hard to make</p>
+               
+    <p>this tool:</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>1. All the XML documents or SGML documents for a given DTD IN THE
+ENTIRE</p>
+               
+    <p>ORGANISATION are converted to well formed XML.</p>
+               
+    <p>(for SGML, this is through the path SP -&gt; ESIS output format (resolved</p>
+               
+    <p>omitted tags) -&gt; well formed XML).</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>2. For each file, a SAX parser is fired off an a overall tree gradually</p>
+               
+    <p>populated.</p>
+               
+    <p>The structure of the tree is based on node name. (this tree is displayed</p>
+               
+    <p>in the GUI as a tree control).</p>
+               
+    <p>Where multiple element names are used as the child of a given element,</p>
+               
+    <p>an immediate parent displayed as</p>
+               
+    <p>"one-of" and, say in blue in the GUI is inserted.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>3. A list of document names is stored globally (or perhaps in SQL
+db),</p>
+               
+    <p>and each node has a int[] array referring</p>
+               
+    <p>to files that use a particular node in a given position. The count
+ is</p>
+               
+    <p>available from array[].length</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>4. As the SAX parsers process each node, the node/namespace is added
+ to</p>
+               
+    <p>a global name/number list in the same</p>
+               
+    <p>way as 3. (perhaps in a SQL db) to minimise space, and also to</p>
+               
+    <p>facilitate 6.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>5. A threshold of say 5% could be set, whereby all node positions
+used</p>
+               
+    <p>by less than 5% of the documents would</p>
+               
+    <p>appear in red. A properties box for a given node displays the number
+ of</p>
+               
+    <p>times this node position is used in the</p>
+               
+    <p>organisation's data, and a list (exportable) of the documents using</p>
+               
+    <p>this. The organisation may deem it worth</p>
+               
+    <p>editing a few documents to tighten up the DTD.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>6. A function EmpiricalDTD builds a new DTD based on the elements</p>
+               
+    <p>actually used in the documents.</p>
+               
+    <p>After import this is automatically run for all documents.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>This can be rerun via a menu option, and can be set to ignore documents</p>
+               
+    <p>in a given low-usage threshold (5%).</p>
+               
+    <p>The DTD produced can be compared using a windiff-style utility with
+ the</p>
+               
+    <p>one produced with No Threshold.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>What this gives you:</p>
+               
+    <p>at the moment, take the massively complex Nokia DTDs. Producing tools</p>
+               
+    <p>that work with these DTDs is a</p>
+               
+    <p>a complete nightmare, and full parameterised testing is simpy too</p>
+               
+    <p>expensive (where you try every</p>
+               
+    <p>possible combination). As a result, Nokia's DTD conversion services
+ and</p>
+               
+    <p>3B2 templates etc are very difiicult</p>
+               
+    <p>to get right first time, and there is always the possibility of a
+new</p>
+               
+    <p>document breaking a tool.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>With the DTD management tool, you could simplify all DTDs to the data</p>
+               
+    <p>model ACTUALLY USED, and</p>
+               
+    <p>prune documents outside a simplified tree (edit them to conform).</p>
+               
+    <p>Overall this would save companies like</p>
+               
+    <p>Nokia millions of dollars.</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>Therefore we could probably sell this tool at about $200,000 in my
+ view.</p>
+               
+    <p>(plus on site consultancy to</p>
+               
+    <p>do the pruning and simplification of the data model).</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <p>Jeff Davies</p>
+               
+    <p><br>
+   <br>
+    </p>
+               
+    <ol start="3">
+    	                 
+      <li>                       
+        <h4>UML Class Diagrams (representing SQL tables) in the New 	Repository 
+ (Chrystal-NR?).</h4>
+   Core Tables: <br>
+       <img src="newRepository.png" alt="New Repository"></li>
+             
+    </ol>
+   Here are the tables for recording data at a document level:          
+    <ol start="3">
+               
+      <li>                  
+        <ol>
+                       
+          <li><img src="newRepository-docTable.png" alt="New Repository - the Document Table"></li>
+                   
+        </ol>
+  &nbsp; </li>
+             
+    </ol>
+   &nbsp; *NOTE*&nbsp; Document can also have document type, and there could
+ be a hiearchy in another table for a full hierarchical classification of
+Documents.<br>
+      <br>
+      <br>
+      <br>
+      <br>
+           
+    </body>
+    </html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20000802//EN" "http://www.w3.org/TR/2000/CR-SVG-20000802/DTD/svg-20000802.dtd">
+<svg width="43cm" height="24cm" viewBox="2 1 43 24">
+  <rect style="fill: #ffffff" x="2.55" y="11.6146" width="15.7318" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="2.55" y="11.6146" width="15.7318" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="10.4159" y="12.6146">Document</text>
+  <rect style="fill: #ffffff" x="2.55" y="13.0146" width="15.7318" height="12.2"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="2.55" y="13.0146" width="15.7318" height="12.2"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="13.7126">+DocumentID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="14.5126">+UserDocumentNumber: varchar(255)</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="15.3126">+DocumentNameID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="16.1126">+DTDID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="16.9126">+SchemaID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="17.7126">+MajorVersion: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="18.5126">+MinorVersion: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="19.3126">+forkOfDocumentID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="20.1126">+translationOfDocumentID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="20.9126">+newVersionOfDocumentID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="21.7126">+LanguageID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="22.5126">+CountryID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="23.3126">+ArchivedDate: date</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="24.1126">+StatusID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="2.7" y="24.9126">+PublishedDate: date</text>
+  <rect style="fill: #ffffff" x="2.55" y="25.2146" width="15.7318" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="2.55" y="25.2146" width="15.7318" height="0.4"/>
+  <rect style="fill: #ffffff" x="22.85" y="11.1646" width="9.39712" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.85" y="11.1646" width="9.39712" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="27.5486" y="12.1646">Language</text>
+  <rect style="fill: #ffffff" x="22.85" y="12.5646" width="9.39712" height="1.8"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.85" y="12.5646" width="9.39712" height="1.8"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="23" y="13.2626">+id: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="23" y="14.0626">+name: varchar(255)</text>
+  <rect style="fill: #ffffff" x="22.85" y="14.3646" width="9.39712" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.85" y="14.3646" width="9.39712" height="0.4"/>
+  <rect style="fill: #ffffff" x="22.95" y="15.6646" width="9.39712" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.95" y="15.6646" width="9.39712" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="27.6486" y="16.6646">Country</text>
+  <rect style="fill: #ffffff" x="22.95" y="17.0646" width="9.39712" height="1.8"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.95" y="17.0646" width="9.39712" height="1.8"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="23.1" y="17.7626">+id: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="23.1" y="18.5626">+name: varchar(255)</text>
+  <rect style="fill: #ffffff" x="22.95" y="18.8646" width="9.39712" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.95" y="18.8646" width="9.39712" height="0.4"/>
+  <rect style="fill: #ffffff" x="31.25" y="20.1" width="13.4694" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="31.25" y="20.1" width="13.4694" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="37.9847" y="21.1">Author</text>
+  <rect style="fill: #ffffff" x="31.25" y="21.5" width="13.4694" height="3.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="31.25" y="21.5" width="13.4694" height="3.4"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="31.4" y="22.198">+id: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="31.4" y="22.998">+FirstName: varchar(255)</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="31.4" y="23.798">+MiddleInitials: varchar(20)</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="31.4" y="24.598">+LastName: varchar(255)</text>
+  <rect style="fill: #ffffff" x="31.25" y="24.9" width="13.4694" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="31.25" y="24.9" width="13.4694" height="0.4"/>
+  <rect style="fill: #ffffff" x="19.8" y="21.85" width="9.8496" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="19.8" y="21.85" width="9.8496" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="24.7248" y="22.85">AuthorInstance</text>
+  <rect style="fill: #ffffff" x="19.8" y="23.25" width="9.8496" height="1.8"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="19.8" y="23.25" width="9.8496" height="1.8"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="19.95" y="23.948">+authorID: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="19.95" y="24.748">+documentID: integer</text>
+  <rect style="fill: #ffffff" x="19.8" y="25.05" width="9.8496" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="19.8" y="25.05" width="9.8496" height="0.4"/>
+  <rect style="fill: #ffffff" x="22.8006" y="6.7" width="9.39712" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.8006" y="6.7" width="9.39712" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="27.4992" y="7.7">DocumentName</text>
+  <rect style="fill: #ffffff" x="22.8006" y="8.1" width="9.39712" height="1.8"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.8006" y="8.1" width="9.39712" height="1.8"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="22.9506" y="8.79798">+id: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="22.9506" y="9.59798">+name: varchar(255)</text>
+  <rect style="fill: #ffffff" x="22.8006" y="9.9" width="9.39712" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.8006" y="9.9" width="9.39712" height="0.4"/>
+  <rect style="fill: #ffffff" x="22.8506" y="2.05" width="9.39712" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.8506" y="2.05" width="9.39712" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="27.5492" y="3.05">DTDName</text>
+  <rect style="fill: #ffffff" x="22.8506" y="3.45" width="9.39712" height="1.8"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.8506" y="3.45" width="9.39712" height="1.8"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="23.0006" y="4.14798">+id: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="23.0006" y="4.94798">+name: varchar(255)</text>
+  <rect style="fill: #ffffff" x="22.8506" y="5.25" width="9.39712" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="22.8506" y="5.25" width="9.39712" height="0.4"/>
+  <rect style="fill: #ffffff" x="33.3006" y="2.05" width="9.39712" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="33.3006" y="2.05" width="9.39712" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="37.9992" y="3.05">SchemaName</text>
+  <rect style="fill: #ffffff" x="33.3006" y="3.45" width="9.39712" height="1.8"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="33.3006" y="3.45" width="9.39712" height="1.8"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="33.4506" y="4.14798">+id: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="33.4506" y="4.94798">+name: varchar(255)</text>
+  <rect style="fill: #ffffff" x="33.3006" y="5.25" width="9.39712" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="33.3006" y="5.25" width="9.39712" height="0.4"/>
+  <rect style="fill: #ffffff" x="33.6506" y="15.65" width="9.39712" height="1.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="33.6506" y="15.65" width="9.39712" height="1.4"/>
+  <text style="fill: #000000; text-align: center; font-size: 1" x="38.3492" y="16.65">Status</text>
+  <rect style="fill: #ffffff" x="33.6506" y="17.05" width="9.39712" height="1.8"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="33.6506" y="17.05" width="9.39712" height="1.8"/>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="33.8006" y="17.748">+id: integer</text>
+  <text style="fill: #000000; text-align: left; font-size: 0.8" x="33.8006" y="18.548">+name: varchar(255)</text>
+  <rect style="fill: #ffffff" x="33.6506" y="18.85" width="9.39712" height="0.4"/>
+  <rect style="stroke-width: 0.1; stroke: #000000" x="33.6506" y="18.85" width="9.39712" height="0.4"/>
+</svg>

@@ -1,0 +1,68 @@
+TO DO LIST:
+-----------
+
+Repository.java
+	class Repository to flesh out including main.
+
+NOTE Author name value is "Lastname, First-names-seperated-by-space"
+
+to createTABLE.sql and the specification:
+new: userDocumentNumber table  (CLASS_DONE)
+new: AttributeName  (CLASS_DONE)
+new: AttributeValue (CLASS_DONE)
+new: PropertyName (CLASS_DONE)
+new: PropertyValue (CLASS_DONE)
+new: PropertyInstance (intDocumentID intPropname intPropvalue intReserver-perhapsURIlater). (CLASS_DONE)
+
+
+check ORDER BY DESCENDING SQL.
+
+LATER: specify username and password in checkin/checkout, and perhaps the jdbc uri
+etc.
+
+LATER: Add property handling
+LATER: put more error handling info into the system.
+
+Make webDav interface to this repository.
+(and command line interface??).
+perhaps modify checkin and checkout to use Input and Output streams
+Then through command line interface, and RMI?
+     repository checkin filename metavalue1 metavalue2 ... metavalueN
+     repository checkout newfilename metavalue1 metavalue2 .... metavalueN
+
+
+
+webDAV - - file + properties. Perhaps allow custom properties??
+ 
+
+REUSE:
+
+share:
+random name to subfile.
+Archive the subfile (ask dialog for properties).
+ID is somehow returned.
+subfile renamed to ID
+cut the tree, paste it into subfile (custom name).
+insert Xlink pointing to subfile (relative).
+
+Generate fragment DTD for subfile, and store to DTD archive.
+(split-blob-like wayfarer).
+
+reuse: choose object from browser (looks up via webDAV browse).
+When found, fetched URI property, inserts Xlink using that
+URI.
+
+open: easy 
+save:easy -perhaps autoincrement a version?
+
+
+
+
+TIDYING AGENT TASKS:
+
+remove orphan items. (perhaps to a filestore, email notification).
+
+
+
+
+
