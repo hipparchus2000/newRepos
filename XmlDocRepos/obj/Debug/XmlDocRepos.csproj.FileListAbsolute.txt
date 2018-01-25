@@ -1,0 +1,12 @@
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\bin\Debug\XmlDocRepos.exe.config
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\bin\Debug\XmlDocRepos.exe
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\bin\Debug\XmlDocRepos.pdb
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\obj\Debug\XmlDocRepos.XmlDocRepos.resources
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\obj\Debug\XmlDocRepos.Properties.Resources.resources
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\obj\Debug\XmlDocRepos.csproj.GenerateResource.Cache
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\obj\Debug\XmlDocRepos.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\obj\Debug\XmlDocRepos.exe
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\obj\Debug\XmlDocRepos.pdb
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\bin\Debug\Newtonsoft.Json.dll
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\bin\Debug\Newtonsoft.Json.xml
+C:\Users\User\source\repos\XmlDocRepos\XmlDocRepos\obj\Debug\XmlDocRepos.csprojResolveAssemblyReference.cache
